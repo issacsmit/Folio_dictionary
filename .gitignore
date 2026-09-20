@@ -1,0 +1,26 @@
+node_modules/
+.npm-cache/
+dist/
+tmp/
+test-results/
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Dictionary sources and converted packs. Users import their own Folio zip;
+# never publish MDX/MDD/PDF dictionaries or generated packs.
+电子词典/
+*.mdx
+*.mdd
+*folio-v1.zip
+research/**/output/
+research/**/_inspect/
+research/**/.venv/
+research/**/__pycache__/
+research/mdx-pilot/*.json
+research/mdx-pilot/*.log
+research/pdf-dictionary-pilot/data/
+research/dictionary-audit-results.json
+research/expanded-ecdict-audit-results.json

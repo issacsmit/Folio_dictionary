@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>词典 · UI 设计试验</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23426c58'/%3E%3Ctext x='9' y='25' font-family='Georgia' font-size='29' fill='white'%3Ea%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:light;--page:#f8f9f7;--surface:#fff;--ink:#292e2c;--muted:#68716c;--line:#e2e6e1;--accent:#426c58;--mark:#e2ecdd;--control:#eef1ec;--card:#fff;--card-ink:#252c29;--card-muted:#64716a;--card-line:#e9ede9;--shadow:0 12px 36px #263d2716,0 2px 8px #263d270a}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:4px}button{color:inherit}button svg{display:block}svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}button[hidden],[hidden]{display:none!important}
+body[data-theme=dark]{color-scheme:dark;--page:#1b201e;--surface:#222824;--ink:#e4e8e2;--muted:#a0aca4;--line:#354039;--accent:#a4c5af;--mark:#3c5545;--control:#2b342e;--card:#282f2b;--card-ink:#eef1eb;--card-muted:#aab9ae;--card-line:#3a443d;--shadow:0 16px 42px #0005,0 2px 8px #0002}
+.lab-bar{height:70px;padding:0 32px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;background:var(--surface)}.lab-brand{display:flex;align-items:center;gap:12px}.brand-mark{width:32px;height:32px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;color:var(--accent);font-family:Georgia,serif;font-size:24px}.brand-name{font-size:14px;font-weight:600}.lab-tag{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.08em}.lab-controls{display:flex;align-items:center;gap:14px}.field{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}select{font-size:12px;background:var(--control);border:0;color:var(--ink);border-radius:8px;padding:8px 27px 8px 10px;max-width:140px}.theme-toggle{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12px}.theme-toggle svg{width:15px;height:15px}
+.lab-layout{max-width:1360px;margin:auto;display:grid;grid-template-columns:210px minmax(0,1fr);gap:68px;padding:55px 52px 150px}.design-note{padding-top:15px;font-size:12px;line-height:1.9}.eyebrow{font-size:10px;letter-spacing:.16em;color:var(--muted);font-weight:600}.note-index{font-family:Georgia,serif;font-size:42px;line-height:1.1;color:var(--accent);margin:24px 0 14px}.design-note h2{font-size:18px;letter-spacing:.02em;margin:0 0 10px;font-weight:600}.design-note p{color:var(--muted);margin:0 0 20px}.note-divider{width:28px;height:1px;background:var(--line);margin:24px 0}.spec-row{display:flex;justify-content:space-between;gap:12px;margin:7px 0}.spec-row span:first-child{color:var(--muted)}.help{margin-top:30px;color:var(--muted);font-size:11px;line-height:2}.help kbd{font:10px inherit;border:1px solid var(--line);border-radius:4px;padding:1px 4px;background:var(--surface)}.reopen{margin-top:16px;background:transparent;border:0;padding:0;font-size:12px;color:var(--accent);display:flex;gap:7px;align-items:center}.reopen svg{width:14px;height:14px}.mock-label{margin-top:22px;font-size:10px;color:var(--muted)}
+.reading{width:100%;max-width:730px;margin:0 auto}.publication{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:19px;margin-bottom:40px}.pub-name{font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:700;letter-spacing:-.6px}.pub-meta{font-size:10px;letter-spacing:.12em;color:var(--muted)}.article-category{font-size:10px;letter-spacing:.17em;color:var(--accent);font-weight:600;margin-bottom:16px}.reading h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,3.8vw,52px);line-height:1.13;letter-spacing:-1.8px;font-weight:400;max-width:650px;margin:0 0 22px}.byline{display:flex;gap:13px;align-items:center;font-size:11px;color:var(--muted);margin-bottom:37px}.byline-dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}.article-body{font:19px/1.86 Georgia,"Times New Roman",serif;color:var(--ink)}.article-body p{margin:0 0 24px}.article-body .lead{font-size:21px;line-height:1.85}.article-body h2{font:400 28px/1.3 Georgia,serif;margin:36px 0 18px;letter-spacing:-.6px}.article-body .secondary{color:var(--muted)}.lookup-word{background:var(--mark);border:0;border-bottom:1px solid var(--accent);padding:1px 3px;border-radius:3px;font:inherit;color:inherit;cursor:pointer}.lookup-word:not(.selected){background:transparent;border-bottom-style:dotted}.article-rule{width:40px;height:1px;background:var(--line);margin:34px 0}.figure-note{font:11px/1.7 -apple-system,"Segoe UI",sans-serif;color:var(--muted);border-left:2px solid var(--line);padding-left:14px;margin:30px 0}
+#stage{position:fixed;z-index:20;top:0;left:0;pointer-events:none}#stage>*{pointer-events:auto}.dictionary{color:var(--card-ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;max-width:calc(100vw - 24px);max-height:calc(100dvh - 130px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;transform-origin:var(--origin,top left);box-shadow:var(--shadow);position:relative;line-height:1.6}.dictionary.enter{animation:appear .17s cubic-bezier(.2,.7,.25,1) both}@keyframes appear{from{opacity:0;transform:translateY(4px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}.card-close{position:absolute;top:13px;right:13px;display:grid;place-items:center;width:25px;height:25px;padding:0;border:0;background:transparent;color:var(--card-muted);border-radius:7px}.card-close:hover{background:var(--control)}.card-close svg{width:14px;height:14px}.headword{margin:0;font-size:25px;font-weight:650;letter-spacing:-.7px;line-height:1.2;padding-right:22px}.pronunciation{font-size:12px;color:var(--card-muted);margin-top:7px;letter-spacing:.015em}.pronunciation .phonetic{font-family:"Segoe UI",Arial,sans-serif}.pos{font-family:Georgia,serif;font-style:italic;font-size:13px;color:var(--card-muted)}.definition-text{font-size:14px;line-height:1.85}.definition{margin:11px 0}.section-label{font-size:10px;font-weight:500;letter-spacing:.08em;color:var(--card-muted)}.phrase-english{font-size:13px;font-weight:500;letter-spacing:.005em}.phrase-chinese{font-size:12px;color:var(--card-muted)}.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--card-line);color:var(--card-muted);font-size:10px}.card-bottom kbd{font:9px "Segoe UI",sans-serif;border:1px solid var(--card-line);border-radius:4px;padding:0 4px}.more{font-size:11px;border:0;background:transparent;color:var(--accent);padding:5px 0;margin-top:3px}.more:hover{text-decoration:underline}.extra-definitions{padding-top:1px}
+/* Quiet: a small, dense, system-like panel. */
+.quiet{width:326px;border:1px solid var(--card-line);border-radius:13px;background:var(--card)}.quiet .card-main{padding:20px 21px 17px}.quiet .headword{font-size:23px}.quiet .definitions{margin:17px 0}.quiet .definition{display:grid;grid-template-columns:36px 1fr;gap:6px;margin:7px 0}.quiet .pos{padding-top:3px}.quiet .phrase-section{padding-top:14px;border-top:1px solid var(--card-line)}.quiet .phrase-list{display:grid;gap:9px;margin-top:10px}.quiet .phrase-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.quiet .phrase-chinese{text-align:right}.quiet .card-bottom{padding:9px 21px;background:color-mix(in srgb,var(--card) 96%,var(--accent))}
+/* Folio: spacious typography, numbered senses, bilingual phrase rows. */
+.folio{width:386px;background:#fffdf8;border:1px solid #e9e3d7;border-radius:19px;--card-ink:#38372e;--card-muted:#7a7162;--card-line:#eae5d9;--accent:#886c3f;--control:#f0ece1;box-shadow:0 16px 40px #493a2014,0 2px 6px #493a2008}.folio .card-main{padding:25px 27px 23px}.folio .entry-label{font-size:9px;letter-spacing:.19em;color:var(--card-muted);margin-bottom:15px}.folio .headword{font:400 35px/1.12 Georgia,"Times New Roman",serif;letter-spacing:-1.1px}.folio .pronunciation{margin-top:9px}.folio .definitions{margin:23px 0}.folio .definition{display:grid;grid-template-columns:22px 1fr;gap:8px;margin:14px 0}.sense-number{font:italic 13px Georgia,serif;color:var(--card-muted);padding-top:4px}.folio .definition .pos{display:block;font-size:12px;margin-bottom:2px}.folio .definition-text{font-size:15px;line-height:1.8}.folio .phrase-section{border-top:1px solid var(--card-line);padding-top:17px}.folio .phrase-list{margin-top:10px}.folio .phrase-row{padding:10px 0;display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:baseline}.folio .phrase-row+.phrase-row{border-top:1px solid var(--card-line)}.folio .phrase-english{font-family:Georgia,serif;font-size:15px;font-weight:400}.folio .card-bottom{padding:11px 27px;font-size:10px}.folio .card-close{top:16px;right:16px}
+body[data-theme=dark] .folio{background:#302e27;border-color:#494438;--card-ink:#f0eadd;--card-muted:#bcb09a;--card-line:#494438;--accent:#d4bd91;--control:#423d31;box-shadow:var(--shadow)}
+/* Mist: a soft glass header and distinct inset content surfaces. */
+.mist{width:364px;border-radius:23px;border:1px solid #ffffffd9;background:linear-gradient(125deg,#f8fffbec,#eef6f2dc);backdrop-filter:blur(22px) saturate(1.15);-webkit-backdrop-filter:blur(22px) saturate(1.15);box-shadow:0 20px 50px #21493422,0 3px 9px #2149340a;--card-ink:#263e33;--card-muted:#596e62;--card-line:#cbd9cf;--accent:#426e56;--control:#dfeae2}.mist .card-main{padding:22px 17px 17px}.mist .card-head{padding:0 6px 20px}.mist .headword{font-size:27px;letter-spacing:-.9px;font-weight:550}.mist .pronunciation{margin-top:8px}.mist .definitions{padding:13px 16px;background:#ffffff9c;border:1px solid #ffffffb8;border-radius:13px}.mist .definition{margin:4px 0;display:grid;grid-template-columns:35px 1fr;gap:5px}.mist .pos{padding-top:3px}.mist .phrase-section{padding:18px 6px 0}.mist .phrase-list{display:grid;gap:9px;margin-top:10px}.mist .phrase-row{display:grid;grid-template-columns:4px 1fr;gap:10px}.mist .phrase-row:before{content:"";height:4px;width:4px;border-radius:50%;background:#88a993;margin-top:9px}.mist .phrase-english{font-size:13px}.mist .phrase-chinese{margin-top:1px}.mist .card-bottom{border-top:0;padding:0 23px 16px}.mist .card-close{top:16px;right:16px}.mist .section-label{letter-spacing:.04em}
+body[data-theme=dark] .mist{background:linear-gradient(125deg,#304b3eec,#27372fdc);border-color:#65826d80;--card-ink:#e5f1e9;--card-muted:#b0c7b7;--card-line:#577560;--accent:#bcdbc5;--control:#3c5545;box-shadow:var(--shadow)}body[data-theme=dark] .mist .definitions{background:#172b2266;border-color:#71978130}
+.status-message{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);padding:8px 14px;border-radius:9px;background:var(--card);box-shadow:var(--shadow);font-size:12px;z-index:50;color:var(--ink)}
+@media(min-width:1500px){.lab-layout{padding-top:70px}.reading{max-width:750px}}
+@media(max-width:1050px){.lab-layout{grid-template-columns:160px minmax(0,1fr);gap:38px;padding:40px 28px 130px}.lab-bar{padding:0 24px}.reading h1{font-size:40px}.pub-meta{display:none}}
+@media(max-width:750px){.lab-bar{height:auto;min-height:70px;padding:14px 18px;align-items:flex-start;flex-wrap:wrap;gap:12px}.lab-controls{gap:8px;flex-wrap:wrap}.lab-brand{gap:9px}.field>span{display:none}.lab-layout{display:block;padding:27px 22px 140px}.design-note{padding-top:0;margin-bottom:28px}.eyebrow,.note-index,.design-note p,.note-divider,.spec-row,.help,.mock-label{display:none}.design-note h2{font-size:12px;color:var(--accent);margin:0;display:inline}.reopen{margin:0;float:right}.publication{margin-bottom:27px;padding-bottom:16px}.reading h1{font-size:37px;letter-spacing:-1px}.article-body,.article-body .lead{font-size:18px}.byline{margin-bottom:27px}.dictionary{max-height:calc(100dvh - 110px)}.folio .card-main{padding:19px 23px}.folio .definitions{margin:16px 0}.folio .entry-label{margin-bottom:10px}}
+@media(prefers-reduced-motion:reduce){.dictionary.enter{animation:none}*{scroll-behavior:auto!important}}
+.proto-picker {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.82);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 8px 24px rgba(0, 0, 0, 0.24),
+    0 2px 6px rgba(0, 0, 0, 0.12);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.proto-picker-highlight {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  will-change: transform;
+}
+
+/* The slide is enabled only after first paint (data-ready), so load doesn't animate. */
+.proto-picker[data-ready] .proto-picker-highlight {
+  transition:
+    transform 250ms cubic-bezier(0.23, 1, 0.32, 1),
+    width 250ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-picker[data-ready] .proto-picker-highlight { transition: none; }
+}
+
+.proto-picker-item {
+  position: relative; /* sits above the highlight */
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font: inherit;
+  cursor: pointer;
+  transition: color 150ms ease-out;
+}
+
+.proto-picker-item:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.proto-picker-item:active {
+  transform: scale(0.97);
+}
+
+.proto-picker-item:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+.proto-picker-item[data-active] {
+  color: #fff;
+}
+
+.proto-picker-divider {
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.proto-picker-replay {
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.proto-picker[data-position="top"] {
+  bottom: auto;
+  top: 24px;
+}
+</style>
+</head>
+<body data-theme="light">
+<header class="lab-bar">
+  <div class="lab-brand"><span class="brand-mark" aria-hidden="true">a</span><div><div class="brand-name">词典 · 设计试验</div><div class="lab-tag">READING, UNINTERRUPTED.</div></div></div>
+  <div class="lab-controls">
+    <label class="field"><span>阅读场景</span><select id="scene" aria-label="阅读场景"><option value="essay">英文随笔</option><option value="paper">学术文章</option></select></label>
+    <label class="field"><span>示例词条</span><select id="word-select" aria-label="示例词条"><option value="resonate">resonate · 短释义</option><option value="throughout">throughout · 常见词</option><option value="run">run · 多义词</option></select></label>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换深色背景" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8.5 8.5 0 0 1 10 4a8.5 8.5 0 1 0 10 10Z"/></svg><span>深色</span></button>
+  </div>
+</header>
+<div class="lab-layout">
+  <aside class="design-note" aria-label="当前设计说明">
+    <div class="eyebrow">DICTIONARY / EXPLORATIONS</div><div class="note-index" id="note-index">01</div>
+    <h2 id="note-title">静 · 系统浮窗</h2><p id="note-description">把空间留给原文。紧凑的行距与清晰的层级，让查词成为阅读中的一次短暂停留。</p>
+    <div class="note-divider"></div>
+    <div class="spec-row"><span>卡片宽度</span><span id="note-width">326 px</span></div>
+    <div class="spec-row"><span>表面质感</span><span id="note-material">实色 · 细边框</span></div>
+    <div class="spec-row"><span>内容密度</span><span id="note-density">紧凑</span></div>
+    <div class="help">点击正文标记词即可查词。<br>也可选中示例词后按 <kbd>Enter</kbd>。<br><kbd>Esc</kbd> 收起 · <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> 切换样式</div>
+    <button class="reopen" id="reopen">重新显示词典 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
+    <div class="mock-label">交互原型 · 仅使用内置示例释义</div>
+  </aside>
+  <main class="reading" id="reading"></main>
+</div>
+<div id="stage"></div>
+<div class="status-message" id="status-message" role="status" hidden></div>
+<nav class="proto-picker" aria-label="Prototype variants">
+  <span class="proto-picker-highlight" aria-hidden="true"></span>
+  <button class="proto-picker-item" data-active aria-current="true">Quiet</button>
+  <button class="proto-picker-item">Folio</button>
+  <button class="proto-picker-item">Mist</button>
+  <span class="proto-picker-divider" aria-hidden="true"></span>
+  <button class="proto-picker-item proto-picker-replay" aria-label="Replay animation (R)">↻</button>
+</nav>
+<script>
+'use strict';
+const entries={
+ resonate:{word:'resonate',phonetic:'/ˈrezəneɪt/',senses:[['v.','引起共鸣；产生共振'],['v.','回响，回荡']],phrases:[['resonate with','引起……的共鸣'],['resonate through','在……中回响']]},
+ throughout:{word:'throughout',phonetic:'/θruːˈaʊt/',senses:[['prep.','遍及；贯穿整个……'],['adv.','自始至终；在各处']],phrases:[['throughout the day','一整天'],['throughout the world','遍及世界'],['throughout history','纵观历史']]},
+ run:{word:'run',phonetic:'/rʌn/',senses:[['v.','跑，奔跑'],['v.','经营，管理；运行，运转']],extra:[['v.','流动；延伸；持续'],['n.','跑步；一段连续的时间']],phrases:[['run into','偶遇；遇到（困难）'],['run out of','用完，耗尽'],['in the long run','从长远来看']]}
+};
+const notes=[
+ {title:'静 · 系统浮窗',description:'把空间留给原文。紧凑的行距与清晰的层级，让查词成为阅读中的一次短暂停留。',width:'326 px',material:'实色 · 细边框',density:'紧凑'},
+ {title:'笺 · 词典书页',description:'像翻开一页小词典。衬线词头、编号释义与舒展留白，让每一条意思都有自己的位置。',width:'386 px',material:'暖纸色 · 柔和阴影',density:'舒展'},
+ {title:'雾 · 轻磨砂',description:'轻轻浮在文字之上。磨砂外层与清晰的释义内层，让通透感和可读性同时存在。',width:'364 px',material:'轻磨砂 · 分层表面',density:'适中'}
+];
+let activeWord='resonate',activeScene='essay',open=true,anchorRect=null,animateNext=true,statusTimer;
+const reading=document.getElementById('reading');
+const closeIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>';
+function wordButton(word){return `<button class="lookup-word selected" data-word="${word}" aria-label="查询 ${word}">${word}</button>`;}
+function renderReading(){
+ const word=wordButton(activeWord);
+ const essayLeads={resonate:`Some ideas ${word} with us long after we first encounter them. They return in quiet moments, finding new meaning in the things we notice every day.`,throughout:`Small moments of attention are scattered ${word} the day. A line in a book, a familiar voice, or the changing light can bring us back to the present.`,run:`The stories we tell ourselves ${word} through our everyday lives. Often unnoticed, they shape the way we understand a place, a person, or a passing moment.`};
+ const paperLeads={resonate:`Optical structures can ${word} with incident light at particular frequencies. Their geometry determines how energy is stored and how the electromagnetic field evolves near the surface.`,throughout:`The response of an optical material can vary ${word} the visible spectrum. Understanding this variation is essential when designing structures that control the propagation of light.`,run:`We ${word} a series of numerical simulations to examine the optical response. Each calculation uses the same incident field while varying the geometry of the surface structures.`};
+ reading.innerHTML=activeScene==='essay'?`
+ <div class="publication"><span class="pub-name">The Margin</span><span class="pub-meta">NOTES ON EVERYDAY LIFE</span></div>
+ <div class="article-category">CULTURE &amp; OBSERVATION</div><h1>The quiet art<br>of paying attention</h1>
+ <div class="byline"><span>The Margin Editorial</span><span class="byline-dot"></span><span>September 20, 2026</span><span class="byline-dot"></span><span>4 min read</span></div>
+ <div class="article-body"><p class="lead">${essayLeads[activeWord]}</p><p>Reading is one way of learning to notice. We follow a sentence, pause at an unfamiliar word, and slowly begin to see the world through someone else’s eyes. The smallest detail can change the meaning of everything around it.</p><p class="secondary">There is a particular pleasure in understanding something that was, a moment ago, just beyond our reach. A word becomes a thought; a thought becomes a connection. Then the page opens up again.</p><div class="article-rule"></div><h2>A little room for curiosity</h2><p>Attention does not always ask us to do more. Sometimes it asks us to stay with a small question for a little longer, without losing the thread of what we were doing.</p><p class="secondary">The best tools leave room for that curiosity. They offer what we need in the moment, then let us return to the things that matter.</p></div>`:`
+ <div class="publication"><span class="pub-name">Field Notes</span><span class="pub-meta">OPTICS / RESEARCH EXCERPT</span></div>
+ <div class="article-category">PHOTONICS · READING SAMPLE</div><h1>Controlling light<br>at the interface</h1><div class="byline"><span>Optics reading series</span><span class="byline-dot"></span><span>Research overview</span><span class="byline-dot"></span><span>6 min read</span></div>
+ <div class="article-body"><p class="lead">${paperLeads[activeWord]}</p><p>At an interface between two media, the phase and amplitude of a light wave depend on the material properties and the local structure. By changing the arrangement of individual elements, it is possible to shape the emerging wavefront.</p><p class="secondary">A complete description must account for both the local response of each element and its interaction with neighboring structures. These effects become especially important when the separation is smaller than the wavelength of incident light.</p><div class="figure-note">READING SAMPLE<br>This excerpt is illustrative text for comparing the dictionary interface.</div><h2>From local response to wavefront control</h2><p>The resulting field can be studied through a combination of analytical models and numerical calculations. Together, they provide a useful picture of how a designed surface redirects energy.</p></div>`;
+ anchorRect=null;
+}
+function senseMarkup(sense,index,kind){return kind==='folio'?`<div class="definition"><span class="sense-number">${String(index+1).padStart(2,'0')}</span><div><span class="pos">${sense[0]}</span><div class="definition-text">${sense[1]}</div></div></div>`:`<div class="definition"><span class="pos">${sense[0]}</span><div class="definition-text">${sense[1]}</div></div>`;}
+function renderCard(kind,index){
+ const note=notes[index];document.getElementById('note-index').textContent=String(index+1).padStart(2,'0');
+ for(const key of ['title','description','width','material','density'])document.getElementById('note-'+key).textContent=note[key];
+ const entry=entries[activeWord],isFolio=kind==='folio';open=true;
+ const phrases=entry.phrases.map(pair=>kind==='mist'?`<div class="phrase-row"><div><div class="phrase-english">${pair[0]}</div><div class="phrase-chinese">${pair[1]}</div></div></div>`:`<div class="phrase-row"><span class="phrase-english">${pair[0]}</span><span class="phrase-chinese">${pair[1]}</span></div>`).join('');
+ const motionClass=animateNext?' enter':'';animateNext=false;
+ requestAnimationFrame(()=>{positionCard();document.querySelector('.lookup-word')?.classList.add('selected');});
+ return `<section class="dictionary ${kind}${motionClass}" role="dialog" aria-modal="false" aria-labelledby="card-word"><button class="card-close" aria-label="关闭词典">${closeIcon}</button><div class="card-main"><div class="card-head">${isFolio?'<div class="entry-label">ENGLISH — 简明英汉</div>':''}<h2 class="headword" id="card-word">${entry.word}</h2><div class="pronunciation"><span class="phonetic">${entry.phonetic}</span></div></div><div class="definitions">${entry.senses.map((s,i)=>senseMarkup(s,i,kind)).join('')}${entry.extra?`<div class="extra-definitions" id="extra-definitions" hidden>${entry.extra.map((s,i)=>senseMarkup(s,i+entry.senses.length,kind)).join('')}</div><button class="more" aria-expanded="false" aria-controls="extra-definitions">更多释义 <span aria-hidden="true">＋</span></button>`:''}</div><div class="phrase-section"><div class="section-label">常用词组${isFolio?' / PHRASES':''}</div><div class="phrase-list">${phrases}</div></div></div><footer class="card-bottom"><span>英 → 简体中文</span><span><kbd>esc</kbd> 收起</span></footer></section>`;
+}
+const variants=[()=>renderCard('quiet',0),()=>renderCard('folio',1),()=>renderCard('mist',2)];
+const initialUrl=new URL(location);const initialVariant=Number(initialUrl.searchParams.get('v')||2);
+if(!Number.isInteger(initialVariant)||initialVariant<1||initialVariant>variants.length){initialUrl.searchParams.set('v','2');history.replaceState(null,'',initialUrl);}
+// `variants` is an array of render functions, one per variant, in picker order.
+const stage = document.getElementById('stage');
+const picker = document.querySelector('.proto-picker');
+const highlight = picker.querySelector('.proto-picker-highlight');
+const items = [...picker.querySelectorAll('.proto-picker-item:not(.proto-picker-replay)')];
+const replay = picker.querySelector('.proto-picker-replay');
+let current = 0;
+
+function moveHighlight() {
+  const el = items[current];
+  highlight.style.width = el.offsetWidth + 'px';
+  highlight.style.transform = `translateX(${el.offsetLeft}px)`;
+}
+
+function mount(i) {
+  stage.innerHTML = '';
+  // Clear first, render next frame, so entrance animations re-run.
+  requestAnimationFrame(() => { stage.innerHTML = variants[i](); });
+}
+
+function setActive(i) {
+  if (i < 0 || i >= variants.length) return;
+  current = i;
+  items.forEach((el, j) => {
+    el.toggleAttribute('data-active', j === i);
+    if (j === i) el.setAttribute('aria-current', 'true');
+    else el.removeAttribute('aria-current');
+  });
+  moveHighlight();
+  const url = new URL(location);
+  url.searchParams.set('v', i + 1);
+  history.replaceState(null, '', url);
+  mount(i);
+}
+
+items.forEach((el, i) => el.addEventListener('click', () => setActive(i)));
+replay?.addEventListener('click', () => mount(current));
+window.addEventListener('resize', moveHighlight);
+
+document.addEventListener('keydown', (e) => {
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const num = parseInt(e.key, 10);
+  if (num >= 1 && num <= variants.length) setActive(num - 1);
+  else if (e.key === 'ArrowRight') setActive((current + 1) % variants.length);
+  else if (e.key === 'ArrowLeft') setActive((current - 1 + variants.length) % variants.length);
+  else if (e.key === 'r' || e.key === 'R') mount(current);
+});
+
+setActive((parseInt(new URLSearchParams(location.search).get('v'), 10) || 2) - 1);
+// Enable the slide only after first paint, so load doesn't animate.
+requestAnimationFrame(() => requestAnimationFrame(() => picker.setAttribute('data-ready', '')));
+function positionCard(){
+ const card=stage.firstElementChild;if(!card)return;
+ const anchor=anchorRect||document.querySelector('.lookup-word').getBoundingClientRect();
+ card.style.maxHeight='';
+ const viewportWidth=document.documentElement.clientWidth;
+ card.style.maxWidth=(viewportWidth-24)+'px';
+ const width=card.offsetWidth;let height=card.offsetHeight;
+ const margin=Math.max(12,document.querySelector('.lab-bar').getBoundingClientRect().bottom+12),bottomLimit=innerHeight-80;
+ let left=Math.max(12,Math.min(anchor.left-18,viewportWidth-width-12));
+ let top=anchor.bottom+10,origin='top left';
+ if(top+height>bottomLimit){
+   if(anchor.top-height-10>=margin){top=anchor.top-height-10;origin='bottom left';}
+   else if(anchor.right+12+width<=viewportWidth-12){left=anchor.right+12;top=Math.max(margin,Math.min(anchor.top,bottomLimit-height));origin='left center';}
+   else if(anchor.left-12-width>=12){left=anchor.left-12-width;top=Math.max(margin,Math.min(anchor.top,bottomLimit-height));origin='right center';}
+   else{
+     const aboveRoom=anchor.top-10-margin,belowRoom=bottomLimit-anchor.bottom-10;
+     const above=aboveRoom>belowRoom,room=Math.max(100,above?aboveRoom:belowRoom);
+     card.style.maxHeight=Math.floor(Math.min(room,bottomLimit-margin))+'px';
+     height=card.offsetHeight;
+     top=above?Math.max(margin,anchor.top-height-10):Math.max(margin,Math.min(anchor.bottom+10,bottomLimit-height));
+     origin=above?'bottom left':'top left';
+   }
+ }
+ stage.style.left=Math.round(left)+'px';stage.style.top=Math.round(top)+'px';
+ card.style.setProperty('--origin',origin);
+}
+function closeCard(){stage.innerHTML='';open=false;document.querySelector('.lookup-word')?.classList.remove('selected');}
+function showCard(){animateNext=true;mount(current);}
+function showStatus(message){const status=document.getElementById('status-message');status.textContent=message;status.hidden=false;clearTimeout(statusTimer);statusTimer=setTimeout(()=>status.hidden=true,3000);}
+document.getElementById('word-select').addEventListener('change',e=>{activeWord=e.target.value;renderReading();showCard();});
+document.getElementById('scene').addEventListener('change',e=>{activeScene=e.target.value;renderReading();showCard();});
+document.getElementById('theme-toggle').addEventListener('click',e=>{const button=e.currentTarget,dark=document.body.dataset.theme!=='dark';document.body.dataset.theme=dark?'dark':'light';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'切换浅色背景':'切换深色背景');button.querySelector('span').textContent=dark?'浅色':'深色';});
+document.getElementById('reopen').addEventListener('click',()=>{anchorRect=null;showCard();});
+reading.addEventListener('click',e=>{if(e.target.closest('.lookup-word')){anchorRect=null;showCard();}});
+stage.addEventListener('click',e=>{if(e.target.closest('.card-close'))closeCard();const more=e.target.closest('.more');if(more){const expanded=more.getAttribute('aria-expanded')==='true';more.setAttribute('aria-expanded',String(!expanded));document.getElementById('extra-definitions').hidden=expanded;more.innerHTML=expanded?'更多释义 <span aria-hidden="true">＋</span>':'收起释义 <span aria-hidden="true">−</span>';positionCard();}});
+document.addEventListener('pointerdown',e=>{if(open&&!e.target.closest('#stage,.lookup-word,.lab-bar,.proto-picker,.design-note'))closeCard();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCard();return;}if(e.key!=='Enter'||e.altKey||e.ctrlKey||e.metaKey||e.target.closest('button,input,select,textarea')||e.target.isContentEditable)return;const selection=window.getSelection(),word=selection.toString().trim().toLowerCase();if(!word)return;e.preventDefault();if(entries[word]){activeWord=word;document.getElementById('word-select').value=word;anchorRect=selection.getRangeAt(0).getBoundingClientRect();showCard();}else showStatus('此 demo 内置 resonate、throughout、run 三个示例词条。');});
+picker.addEventListener('click',e=>{if(e.target.closest('.proto-picker-replay'))animateNext=true;});
+document.addEventListener('keydown',e=>{if((e.key==='r'||e.key==='R')&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!e.target.closest('input,textarea,select')&&!e.target.isContentEditable)animateNext=true;});
+window.addEventListener('resize',()=>{anchorRect=null;if(open)positionCard();});
+window.addEventListener('scroll',()=>{if(open){anchorRect=null;positionCard();}},{passive:true});
+renderReading();
+</script>
+</body>
+</html>

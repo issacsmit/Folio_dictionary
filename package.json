@@ -1,0 +1,16 @@
+{
+  "name": "folio-dictionary",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test --test-isolation=none tests/core.test.js tests/update-check.test.js tests/manifest.test.js",
+    "test:browser": "node tests/browser.mjs",
+    "test:reload": "node tests/reload.mjs",
+    "test:update": "node tests/update-ui.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

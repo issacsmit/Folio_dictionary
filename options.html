@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Folio · 词典与设置</title><link rel="icon" type="image/png" sizes="32x32" href="icons/32.png"><link rel="stylesheet" href="pages.css"></head>
+<body><main class="settings">
+  <header class="brand"><img class="mark" src="icons/128.png" width="64" height="64" alt=""><span>Folio</span><span class="brand-note">READING, UNINTERRUPTED.</span></header>
+  <div class="intro"><span class="eyebrow">YOUR LITTLE DICTIONARY</span><h1>读到不懂的词，<br>轻轻翻一页。</h1><p>选中英文，按下 <kbd id="key-hint">Alt</kbd>。释义就在原文旁边。</p></div>
+  <section class="panel"><div class="section-heading"><h2>我的词典</h2><span class="badge" id="pack-badge">尚未导入</span></div>
+    <p id="pack-meta" class="muted small">导入一次，即可离线查词。词典只保存在这台设备。</p>
+    <div id="dictionary-list" role="group" aria-label="选择当前词典"></div>
+    <p id="library-status" role="status" class="status"></p>
+    <div class="import-row"><label class="primary file-label" for="pack-file" tabindex="0">添加词典 <span aria-hidden="true">＋</span></label><input id="pack-file" type="file" accept=".zip,application/zip"><span class="muted small">Folio 标准词典包 · .zip</span></div>
+    <p class="muted small">新词典会加入列表；重新导入同一词典包会更新内容，并保留名称。</p>
+    <div id="import-progress" hidden><progress id="progress" value="0" max="100"></progress><p class="small muted">导入期间请保留此页；关闭会中断导入，原词典仍然保留。</p></div><p id="import-status" role="status" aria-live="polite" class="status"></p>
+  </section>
+  <section class="panel"><h2>阅读偏好</h2>
+    <div class="setting-row"><div><label for="enabled">网页查词</label><p class="muted small">仅在主动选词并按键时查询。</p></div><input id="enabled" type="checkbox" role="switch" checked></div>
+    <div class="setting-row"><div><label for="trigger">查词键</label><p class="muted small">选中后按下即可查询。点此再按要使用的键。输入时不触发。</p></div><button type="button" id="trigger" class="key-capture" aria-describedby="setting-status">Alt</button></div>
+    <div class="setting-row"><div><label for="search-key">未收录时搜索</label><p class="muted small">词典没有这个词时，按下即可用 Google 查找。</p></div><button type="button" id="search-key" class="key-capture">Enter</button></div>
+    <div class="setting-row"><div><label for="theme">卡片外观</label><p class="muted small">保留一页纸的温度，也适合夜晚阅读。</p></div><select id="theme"><option value="auto">跟随阅读页面</option><option value="light">暖纸色</option><option value="dark">深色</option></select></div>
+    <p id="setting-status" class="status small" role="status"></p>
+  </section>
+  <section class="panel" aria-labelledby="update-title">
+    <h2 id="update-title">检查更新</h2>
+    <p class="muted small" id="update-copy">当前版本 <span id="current-version">未知</span>。只有点击下面的按钮时，才会向 GitHub 查询公开的版本号。</p>
+    <div class="update-actions">
+      <button type="button" id="check-update" class="secondary">检查更新</button>
+      <a id="open-release" class="secondary" hidden target="_blank" rel="noopener noreferrer">打开 GitHub 更新说明</a>
+    </div>
+    <p id="update-status" role="status" aria-live="polite" class="status" hidden></p>
+    <p id="update-howto" class="muted small" hidden>更新后请在扩展页点重新加载，再刷新已打开的文章。不要再次加载已解压扩展。</p>
+  </section>
+  <section class="panel try-panel"><h2>试着查一个词</h2><p class="muted small">导入后在这里检查词典，或回到文章中选词。</p><form id="lookup-form" class="search"><label class="sr-only" for="query">英文单词或词组</label><input id="query" placeholder="resonate" autocomplete="off" maxlength="160" required><button class="primary" type="submit">查词</button></form><div id="preview" hidden></div></section>
+  <footer class="page-footer"><span id="app-version">Folio</span> · 词典内容与程序分开保存。<br>普通网页可用；Chrome 内部页面、商店和内置 PDF 阅读器暂不支持。<br>本地 HTML 文件需在扩展详情中开启“允许访问文件网址”。</footer>
+</main><script src="card.js"></script><script type="module" src="options.js"></script></body></html>

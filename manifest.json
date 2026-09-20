@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Folio",
+  "description": "选中英文，按一下键。在一页温暖的小词典里，继续阅读。支持导入本地 Folio 词典包。",
+  "version": "1.0.0",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": ["https://api.github.com/*"],
+  "background": {"service_worker": "background.js", "type": "module"},
+  "action": {"default_title": "Folio · 词典与设置", "default_popup": "popup.html", "default_icon": {"16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png"}},
+  "options_page": "options.html",
+  "icons": {"16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png", "256": "icons/256.png"},
+  "web_accessible_resources": [{"resources": ["icons/256.png"], "matches": ["<all_urls>"], "use_dynamic_url": true}],
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*", "file:///*"],
+    "js": ["card.js", "content.js"],
+    "run_at": "document_idle",
+    "all_frames": true,
+    "match_about_blank": true
+  }],
+  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'none'; connect-src https://api.github.com"}
+}

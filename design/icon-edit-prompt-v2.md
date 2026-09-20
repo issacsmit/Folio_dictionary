@@ -1,0 +1,5 @@
+# 第二次局部编辑
+
+工具：内置 imagegen。结果：`folio-icon.png`。
+
+Use case: precise-object-edit. Edit target: provided Folio app icon. Surgical cleanup only, preserve EXACT black calligraphic spiral silhouette, tips, stroke weights, placement, dimensions, cream rounded-square tile boundary, white canvas and framing. The previous edit still has an unwanted diffuse dirty grey patch underneath and lower-right of the spiral, ON the tile face. REMOVE this patch completely, do not just blur or lighten it. The black spiral must appear as completely flat, crisp matte black ink PRINTED flush on the tile: no extrusion, no cast shadow, no ambient occlusion, no halo, no glow along any stroke. Restore a clean uniform warm ivory tile face beneath and to the right of the spiral, matching the clean upper-left surface; no grey gradient pooling in the bottom-right tile quadrant. Preserve the tile's very subtle edge rounding, and preserve ONLY the separate soft external drop shadow OUTSIDE the rounded square, against the white surrounding canvas. The shape itself is locked; do not redesign it. No text or new elements. Return the full square artwork at original framing.
