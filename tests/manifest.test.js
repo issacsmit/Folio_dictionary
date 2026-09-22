@@ -24,7 +24,7 @@ test('manifest sits at the clone root so Chrome can load that folder directly', 
 
   assert.equal(manifest.manifest_version, 3);
   assert.equal(manifest.name, 'Folio');
-  assert.equal(manifest.version, '1.0.0');
+  assert.equal(manifest.version, '1.0.1');
   assert.match(manifest.version, /^\d+\.\d+\.\d+$/u);
   assert.equal(packageJson.version, manifest.version);
   assert.equal(statSync(path.join(ROOT, 'background.js')).isFile(), true);

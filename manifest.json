@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Folio",
   "description": "选中英文，按一下键。在一页温暖的小词典里，继续阅读。支持导入本地 Folio 词典包。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minimum_chrome_version": "120",
   "permissions": ["storage", "unlimitedStorage"],
   "host_permissions": ["https://api.github.com/*"],
