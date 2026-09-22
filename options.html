@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Folio · 词典与设置</title><link rel="icon" type="image/png" sizes="32x32" href="icons/32.png"><link rel="stylesheet" href="pages.css"></head>
 <body><main class="settings">
-  <header class="brand"><img class="mark" src="icons/128.png" width="64" height="64" alt=""><span>Folio</span><span class="brand-note">READING, UNINTERRUPTED.</span></header>
-  <div class="intro"><span class="eyebrow">YOUR LITTLE DICTIONARY</span><h1>读到不懂的词，<br>轻轻翻一页。</h1><p>选中英文，按下 <kbd id="key-hint">Alt</kbd>。释义就在原文旁边。</p></div>
+  <header class="brand"><img class="mark" src="icons/mark.png" width="56" height="56" alt=""><span>Folio</span><span class="brand-note">READING, UNINTERRUPTED.</span></header>
+  <div class="intro"><span class="eyebrow">YOUR LITTLE DICTIONARY</span><h1>读到不懂的词，<br>轻轻翻一页。</h1><p>选中英文，按下 <kbd id="key-hint">Enter</kbd>。释义就在原文旁边。</p></div>
   <section class="panel"><div class="section-heading"><h2>我的词典</h2><span class="badge" id="pack-badge">尚未导入</span></div>
     <p id="pack-meta" class="muted small">导入一次，即可离线查词。词典只保存在这台设备。</p>
     <div id="dictionary-list" role="group" aria-label="选择当前词典"></div>
@@ -13,7 +13,7 @@
   </section>
   <section class="panel"><h2>阅读偏好</h2>
     <div class="setting-row"><div><label for="enabled">网页查词</label><p class="muted small">仅在主动选词并按键时查询。</p></div><input id="enabled" type="checkbox" role="switch" checked></div>
-    <div class="setting-row"><div><label for="trigger">查词键</label><p class="muted small">选中后按下即可查询。点此再按要使用的键。输入时不触发。</p></div><button type="button" id="trigger" class="key-capture" aria-describedby="setting-status">Alt</button></div>
+    <div class="setting-row"><div><label for="trigger">查词键</label><p class="muted small">选中后按下即可查询。点此再按要使用的键。输入时不触发。</p></div><button type="button" id="trigger" class="key-capture" aria-describedby="setting-status">Enter</button></div>
     <div class="setting-row"><div><label for="search-key">未收录时搜索</label><p class="muted small">词典没有这个词时，按下即可用 Google 查找。</p></div><button type="button" id="search-key" class="key-capture">Enter</button></div>
     <div class="setting-row"><div><label for="theme">卡片外观</label><p class="muted small">保留一页纸的温度，也适合夜晚阅读。</p></div><select id="theme"><option value="auto">跟随阅读页面</option><option value="light">暖纸色</option><option value="dark">深色</option></select></div>
     <p id="setting-status" class="status small" role="status"></p>

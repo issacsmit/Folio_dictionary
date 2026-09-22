@@ -23,3 +23,5 @@ try {
         }
     }
 } finally { $folioSource.Dispose() }
+python (Join-Path $PSScriptRoot 'export-mark.py')
+if ($LASTEXITCODE -ne 0) { throw '未能抽出 icons/mark.png。需要 Python 与 Pillow。' }

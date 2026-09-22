@@ -60,7 +60,7 @@ try {
   const api=(query)=>options.evaluate(query=>chrome.runtime.sendMessage({type:'lookup',query}),query);
   assert.equal((await api('resonate')).status,'no-dictionary'); check('first-run empty state');
   const article=await context.newPage(); await article.goto(origin+'/tests/reading.html');
-  async function select(selector,key='Alt',page=article) {
+  async function select(selector,key='Enter',page=article) {
     await page.locator(selector).scrollIntoViewIfNeeded();
     await page.locator(selector).evaluate(node=>{document.activeElement?.blur();const range=document.createRange();range.selectNodeContents(node);const s=getSelection();s.removeAllRanges();s.addRange(range);});
     await page.keyboard.press(key);
@@ -170,8 +170,8 @@ try {
   await googleFromButton.close();
   await article.keyboard.press('Escape');
   await select('#unknown');await article.getByText(/词典未收录这个词/).waitFor();await article.mouse.click(30,30);assert.equal(await article.locator('folio-dictionary').count(),0);check('not-found and outside-click dismissal');
-  await article.locator('#input').focus();await article.locator('#input').selectText();await article.keyboard.press('Alt');assert.equal(await article.locator('folio-dictionary').count(),0);
-  await article.locator('#editor').focus();await article.locator('#editor').selectText();await article.keyboard.press('Alt');assert.equal(await article.locator('folio-dictionary').count(),0);check('inputs and contenteditable do not trigger');
+  await article.locator('#input').focus();await article.locator('#input').selectText();await article.keyboard.press('Enter');assert.equal(await article.locator('folio-dictionary').count(),0);
+  await article.locator('#editor').focus();await article.locator('#editor').selectText();await article.keyboard.press('Enter');assert.equal(await article.locator('folio-dictionary').count(),0);check('inputs and contenteditable do not trigger');
   await article.evaluate(()=>document.body.classList.add('dark'));await select('#word');await article.locator('folio-dictionary .card.dark').waitFor();await article.screenshot({path:path.join(output,'folio-dark.png'),animations:'disabled'});check('automatic dark reading-surface theme');await article.keyboard.press('Escape');
   await article.setViewportSize({width:390,height:844});await select('#bottom');await article.locator('folio-dictionary .word').first().waitFor();
   const bounds=await article.locator('folio-dictionary .card').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=391&&bounds.y>=0&&bounds.y+bounds.height<=845,JSON.stringify(bounds));await article.screenshot({path:path.join(output,'folio-narrow.png'),animations:'disabled'});check('narrow viewport and bottom-edge positioning');await article.keyboard.press('Escape');

@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  let settings = {trigger:'Alt', searchKey:'Enter', theme:'auto', enabled:true};
+  let settings = {trigger:'Enter', searchKey:'Enter', theme:'auto', enabled:true};
   let host, root, card, range, sequence = 0, resizeObserver, currentData;
   const media = matchMedia('(prefers-color-scheme: dark)');
   addEventListener('unhandledrejection', event => {

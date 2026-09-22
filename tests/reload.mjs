@@ -17,7 +17,7 @@ try {
   let worker=context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id=new URL(worker.url()).host;
   const article=await context.newPage();await article.goto(`http://127.0.0.1:${server.address().port}`);
-  async function select(){await article.locator('#word').selectText();await article.keyboard.press('Alt');}
+  async function select(){await article.locator('#word').selectText();await article.keyboard.press('Enter');}
   await select();await article.getByText('先导入一本词典，让 Folio 陪你阅读。').waitFor();
   const management=await context.newPage();await management.goto('chrome://extensions/');
   await management.locator('extensions-toolbar #devMode').click();
@@ -41,7 +41,7 @@ try {
     assert.deepEqual(errors,[]);
     checks.push(`reload ${iteration+1}: old page shows recovery instructions without unhandled errors`);
     const options=await context.newPage();await options.goto(`chrome-extension://${id}/options.html`);
-    const state=await options.evaluate(()=>chrome.runtime.sendMessage({type:'status'}));assert.equal(state.settings.trigger,'Alt');
+    const state=await options.evaluate(()=>chrome.runtime.sendMessage({type:'status'}));assert.equal(state.settings.trigger,'Enter');
     await options.close();
     await article.reload();await select();await article.getByText('先导入一本词典，让 Folio 陪你阅读。').waitFor();
     await article.locator('folio-dictionary .brand-mark img').evaluate(img=>img.decode());

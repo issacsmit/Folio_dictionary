@@ -21,8 +21,8 @@ test('source-recorded inflections are indexed without guessing suffixes', () => 
 test('queries stay bounded; invalid settings use safe defaults', () => {
   assert.ok(validQuery('run out of')); assert.ok(!validQuery('a'.repeat(161))); assert.ok(!validQuery('<script>'));
   assert.ok(!validQuery('line\nbreak')); assert.ok(!validQuery('中文'));
-  assert.deepEqual(cleanSettings({trigger:'Escape',theme:'other',enabled:false}), {trigger:'Alt',searchKey:'Enter',theme:'auto',enabled:false});
-  assert.deepEqual(cleanSettings({}), {trigger:'Alt',searchKey:'Enter',theme:'auto',enabled:true});
+  assert.deepEqual(cleanSettings({trigger:'Escape',theme:'other',enabled:false}), {trigger:'Enter',searchKey:'Enter',theme:'auto',enabled:false});
+  assert.deepEqual(cleanSettings({}), {trigger:'Enter',searchKey:'Enter',theme:'auto',enabled:true});
   assert.equal(cleanSettings({trigger:'Enter'}).trigger, 'Enter');
   assert.equal(cleanSettings({trigger:'Control',searchKey:'g'}).trigger, 'Ctrl');
   assert.equal(cleanSettings({searchKey:'???'}).searchKey, 'Enter');
